@@ -2,12 +2,12 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const tiChildRoutes = (prefix) => [
   {
-    path: '/ti/user',
-    name: prefix + '.user',
+    path: '/cemiterio/administracao',
+    name: prefix + '.administracao',
     meta: {
       auth: true,
-      title: 'Usuários',
-      icon: 'user-group',
+      title: 'Administração',
+      icon: 'setting',
       isBanner: false,
       roles: ['sudo']
     },
@@ -22,7 +22,7 @@ export default [
       title: 'TI',
       icon: 'adjustment'
     },
-    subMenu: true,
+    subMenu: false,
     component: DefaultLayout,
     children: tiChildRoutes('ti')
   }

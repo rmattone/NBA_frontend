@@ -21,9 +21,9 @@
           </b-collapse>
         </side-menu>
       </div>
-      <div v-for="route in myAccountRoute" :key="route.path" :item="route" :base-path="route.path">
+      <!-- <div v-for="route in myAccountRoute" :key="route.path" :item="route" :base-path="route.path">
         <side-menu isTag="router-link" :title="route.children[0].meta.title" :icon="route.children[0].meta.icon" :route="{ to: route.children[0].name }"></side-menu>
-      </div>
+      </div> -->
     </ul>
   </default-sidebar>
   <!-- Sidebar Component End Here-->
@@ -37,9 +37,9 @@ import { useRoute } from 'vue-router'
 import store from '@/store'
 
 const permissions = store.getters.permission_routes
-const myAccountRoute = permissions.filter(function (el) {
+/* const myAccountRoute = permissions.filter(function (el) {
   return el.name == 'account'
-})
+}) */
 const currentRoute = ref('')
 const route = useRoute()
 const toggle = (route) => {

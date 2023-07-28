@@ -7,7 +7,7 @@ export const initialState = {
           "target": "[data-setting=\"app_name\"]",
           "choices": [],
           "type": "text",
-          "value": "M18"
+          "value": "CIP"
       },
       "theme_scheme_direction": {
           "target": "html",
@@ -38,9 +38,7 @@ export const initialState = {
           ],
           "type": "layout_design",
           "value": [
-              "theme-default",
-              "theme-bordered",
-              "theme-flat"
+              "theme-default"
           ]
       },
       "theme_color": {
@@ -55,8 +53,8 @@ export const initialState = {
           ],
           "type": "default",
           "colors": {
-              "--{{prefix}}primary": "#383838",
-              "--{{prefix}}info": "#b5b5b5"
+              "--{{prefix}}primary": "#e7662c",
+              "--{{prefix}}info": "#fecd0e"
           },
           "value": "custom"
       },
@@ -86,7 +84,7 @@ export const initialState = {
               "container-fluid"
           ],
           "type": "layout_design",
-          "value": "container-fluid"
+          "value": "container"
       },
       "header_navbar": {
           "target": ".iq-navbar",
@@ -100,7 +98,7 @@ export const initialState = {
               "hidden"
           ],
           "type": "layout_design",
-          "value": "default"
+          "value": "navs-default"
       },
       "header_banner": {
           "target": ".iq-banner",
@@ -133,7 +131,9 @@ export const initialState = {
               "sidebar-soft"
           ],
           "type": "layout_design",
-          "value": []
+          "value": [
+              "sidebar-hover"
+          ]
       },
       "sidebar_show": {
           "target": "[data-toggle=\"main-sidebar\"]",
@@ -162,7 +162,7 @@ export const initialState = {
               "slidebar-default navs-full-width"
           ],
           "type": "layout_design",
-          "value": "sidebar-default navs-rounded-all"
+          "value": "sidebar-default navs-pill"
       },
       "card_style": {
           "target": "body",
@@ -182,19 +182,19 @@ export const initialState = {
               "glass"
           ],
           "type": "layout_design",
-          "value": "default"
+          "value": "sticky"
       },
       "body_font_family": {
           "target": "body",
           "choices": [],
           "type": "variable",
-          "value": "Roboto"
+          "value": "Abel"
       },
       "heading_font_family": {
           "target": "heading",
           "choices": [],
           "type": "variable",
-          "value": "Inter"
+          "value": "Abel"
       }
   }
 };

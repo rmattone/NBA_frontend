@@ -1,13 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import calendarRoutes from './modules-routes/calendar'
-import avtachaRoutes from './modules-routes/avtacha'
-import rhRoutes from './modules-routes/rh'
-import tiRoutes from './modules-routes/ti'
+import cemeteryRoutes from './modules-routes/cemetery'
 
 import store from '@/store'
 import { getToken } from '@/utilities/auth' // get token from cookie
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+// import HorizontalLayout from '@/layouts/menu-styles/HorizontalLayout.vue'
 import BlankLayout from '@/layouts/guest/BlankLayout.vue'
 
 const simpleAuthchildRoutes = (prefix) => [
@@ -31,26 +29,14 @@ const dashboardRoutes = (prefix) => [
     path: '',
     name: prefix + '.dashboard',
     meta: {
-      auth: true,
-      title: 'Calendario',
-      icon: 'calendar',
-      isBanner: false,
-      roles: ['sudo', 'h', 'rH', 'c']
-    },
-    component: () => import('@/views/calendar/MyCalendarPage.vue')
-  }
-  /* {
-    path: '',
-    name: prefix + '.dashboard',
-    meta: {
-      auth: true,
+      auth: false,
+      title: 'Página Inicial',
       icon: 'home',
-      title: 'Home',
       isBanner: false,
-      roles: ['sudo', 'h', 'rH', 'c']
+      roles: []
     },
     component: () => import('@/views/dashboards/IndexPage.vue')
-  } */
+  },
 ]
 const myAccountRoutes = (prefix) => [
   {
@@ -120,7 +106,7 @@ export const constantRoutes = [
   }
 ]
 
-export const asyncRoutes = [...calendarRoutes, ...avtachaRoutes, ...rhRoutes, ...tiRoutes]
+export const asyncRoutes = [...cemeteryRoutes]
 
 const router = createRouter({
   linkActiveClass: 'active',
