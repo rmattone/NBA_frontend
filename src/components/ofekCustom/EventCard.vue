@@ -2,7 +2,7 @@
   <b-col sm="5">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{{ event.institutionName }} - {{ event.categoryName }}  </h4>
+        <h4 class="card-title">{{ event.institutionName }} - {{ event.categoryName }}</h4>
       </div>
       <hr class="mb-0" />
       <div class="card-body">

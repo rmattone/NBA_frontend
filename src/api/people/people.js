@@ -11,7 +11,15 @@ export function fetchListPeople(query = null) {
 export function updatePerson(data, personId) {
   return request({
     url: '/people/' + personId,
-    method: 'put',
+    method: 'post',
+    data
+  })
+}
+
+export function createPerson(data) {
+  return request({
+    url: '/people/',
+    method: 'post',
     data
   })
 }

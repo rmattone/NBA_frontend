@@ -33,10 +33,10 @@ const dashboardRoutes = (prefix) => [
       title: 'Página Inicial',
       icon: 'home',
       isBanner: false,
-      roles: []
+      roles: ['sudo', 'h', 'rH', 'c']
     },
     component: () => import('@/views/dashboards/IndexPage.vue')
-  },
+  }
 ]
 const myAccountRoutes = (prefix) => [
   {

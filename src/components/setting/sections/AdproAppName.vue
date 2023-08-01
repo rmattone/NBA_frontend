@@ -7,7 +7,7 @@
   </span>
   <div class="d-grid gap-3 grid-cols-1 mb-4">
     <div class="form-group mb-0">
-      <input type="text" maxlength="10" name="app_name" class="form-control" v-model="inputValue" placeholder="Enter App Name" @input="appNameAction" />
+      <input type="text" name="app_name" class="form-control" v-model="inputValue" placeholder="Enter App Name" @input="appNameAction" />
     </div>
   </div>
 </template>

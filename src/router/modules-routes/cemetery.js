@@ -1,6 +1,6 @@
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
-const tiChildRoutes = (prefix) => [
+const cemeteryChildRoutes = (prefix) => [
   {
     path: '/cemiterio/administracao',
     name: prefix + '.administracao',
@@ -11,19 +11,19 @@ const tiChildRoutes = (prefix) => [
       isBanner: false,
       roles: ['sudo']
     },
-    component: () => import('@/views/ti/UsersPage.vue')
+    component: () => import('@/views/cemetery/PeoplePage.vue')
   }
 ]
 export default [
   {
-    path: '/ti',
-    name: 'ti',
+    path: '/cemiterio',
+    name: 'cemiterio',
     meta: {
-      title: 'TI',
+      title: 'cemiterio',
       icon: 'adjustment'
     },
     subMenu: false,
     component: DefaultLayout,
-    children: tiChildRoutes('ti')
+    children: cemeteryChildRoutes('cemiterio')
   }
 ]

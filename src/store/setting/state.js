@@ -7,7 +7,7 @@ export const initialState = {
           "target": "[data-setting=\"app_name\"]",
           "choices": [],
           "type": "text",
-          "value": "CIP"
+          "value": "Centro Israelita"
       },
       "theme_scheme_direction": {
           "target": "html",
@@ -132,7 +132,7 @@ export const initialState = {
           ],
           "type": "layout_design",
           "value": [
-              "sidebar-hover"
+              "sidebar-soft"
           ]
       },
       "sidebar_show": {
@@ -162,7 +162,7 @@ export const initialState = {
               "slidebar-default navs-full-width"
           ],
           "type": "layout_design",
-          "value": "sidebar-default navs-pill"
+          "value": "sidebar-default navs-full-width"
       },
       "card_style": {
           "target": "body",
