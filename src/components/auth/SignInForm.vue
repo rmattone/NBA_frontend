@@ -11,7 +11,6 @@
         <input type="password" class="form-control mb-0" id="password" v-model="loginForm.password" />
       </div>
       <div class="d-flex justify-content-end align-items-center mb-3">
-        <!-- <router-link :to="{ name: 'animated.auth.reset-password' }">Esqueci minha senha</router-link> -->
       </div>
       <div class="text-center pb-3">
         <button type="submit" class="btn btn-primary">Entrar</button>
@@ -51,7 +50,7 @@ export default {
       this.$store
         .dispatch('user/login', this.loginForm)
         .then(() => {
-          this.$router.push({ name: 'default.dashboard' })
+          this.$router.push({ name: 'cemiterio.home' })
           this.loading = false
         })
         .catch(() => {

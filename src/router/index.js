@@ -5,7 +5,8 @@ import cemeteryRoutes from './modules-routes/cemetery'
 import store from '@/store'
 import { getToken } from '@/utilities/auth' // get token from cookie
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-// import HorizontalLayout from '@/layouts/menu-styles/HorizontalLayout.vue'
+// import BoxedLayout from '@/layouts/menu-styles/BoxedLayout.vue'
+import HorizontalLayout from '@/layouts/menu-styles/HorizontalLayout.vue'
 import BlankLayout from '@/layouts/guest/BlankLayout.vue'
 
 const simpleAuthchildRoutes = (prefix) => [
@@ -13,7 +14,7 @@ const simpleAuthchildRoutes = (prefix) => [
     path: 'login',
     name: prefix + '.login',
     meta: { auth: false, name: 'Login' },
-    component: () => import('@/views/auth/simple/SignIn.vue')
+    component: () => import('@/views/auth/default/SignIn.vue')
   },
   {
     path: 'register',
@@ -23,6 +24,21 @@ const simpleAuthchildRoutes = (prefix) => [
   }
 ]
 
+// Public routes
+const publicRoutes = (prefix) => [
+  {
+    path: '',
+    name: prefix + '.home',
+    meta: {
+      auth: true,
+      title: 'Página Inicial',
+      icon: 'home',
+      isBanner: false,
+      roles: ['sudo', 'h', 'rH', 'c']
+    },
+    component: () => import('@/views/people/PeoplePage.vue')
+  }
+]
 // Dashboard routes
 const dashboardRoutes = (prefix) => [
   {
@@ -35,7 +51,7 @@ const dashboardRoutes = (prefix) => [
       isBanner: false,
       roles: ['sudo', 'h', 'rH', 'c']
     },
-    component: () => import('@/views/dashboards/IndexPage.vue')
+    component: () => import('@/views/people/PeoplePage.vue')
   }
 ]
 const myAccountRoutes = (prefix) => [
@@ -86,8 +102,16 @@ export const constantRoutes = [
   {
     path: '/',
     name: 'dashboard',
-    component: DefaultLayout,
+    component: HorizontalLayout,
+    hidden: true,
     children: dashboardRoutes('default')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    // hidden: true,
+    component: DefaultLayout,
+    children: publicRoutes('cemiterio')
   },
   {
     path: '/simple-auth',

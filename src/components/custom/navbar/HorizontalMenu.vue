@@ -10,7 +10,7 @@
         <button class="btn-close float-end"></button>
       </div>
       <ul class="navbar-nav">
-        <!-- <li class="nav-item"><router-link class="nav-link" :to="{ name: 'horizontal.dashboard' }"> Horizontal </router-link></li> -->
+        <!-- <li class="nav-item"><router-link class="nav-link" :to="{ name: 'default.dashboard' }"> Horizontal </router-link></li> -->
         <!-- <li class="nav-item"><router-link class="nav-link" :to="{ name: 'dual-horizontal.dashboard' }"> Dual Horizontal </router-link></li> -->
         <li class="nav-item">
           <!-- <router-link class="nav-link" :to="{ name: 'dual-compact.dashboard' }"><span class="item-name">Dual Compact</span></router-link> -->

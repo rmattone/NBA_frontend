@@ -25,5 +25,5 @@ export default [
     subMenu: false,
     component: DefaultLayout,
     children: cemeteryChildRoutes('cemiterio')
-  }
+  },
 ]

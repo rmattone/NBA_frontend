@@ -53,8 +53,8 @@ export const initialState = {
           ],
           "type": "default",
           "colors": {
-              "--{{prefix}}primary": "#e7662c",
-              "--{{prefix}}info": "#fecd0e"
+              "--{{prefix}}primary": "#2398cb",
+              "--{{prefix}}info": "#e0cf76"
           },
           "value": "custom"
       },
@@ -188,13 +188,13 @@ export const initialState = {
           "target": "body",
           "choices": [],
           "type": "variable",
-          "value": "Abel"
+          "value": "Noto Sans TC"
       },
       "heading_font_family": {
           "target": "heading",
           "choices": [],
           "type": "variable",
-          "value": "Abel"
+          "value": "Noto Sans TC"
       }
   }
 };
