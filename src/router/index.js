@@ -24,8 +24,7 @@ const simpleAuthchildRoutes = (prefix) => [
   }
 ]
 
-// Public routes
-const publicRoutes = (prefix) => [
+const adminRoutes = (prefix) => [
   {
     path: '',
     name: prefix + '.home',
@@ -37,7 +36,7 @@ const publicRoutes = (prefix) => [
       roles: ['sudo', 'h', 'rH', 'c']
     },
     component: () => import('@/views/people/PeoplePage.vue')
-  }
+  },
 ]
 // Dashboard routes
 const dashboardRoutes = (prefix) => [
@@ -49,10 +48,22 @@ const dashboardRoutes = (prefix) => [
       title: 'Página Inicial',
       icon: 'home',
       isBanner: false,
-      roles: ['sudo', 'h', 'rH', 'c']
+      roles: []
     },
     component: () => import('@/views/people/PeoplePage.vue')
-  }
+  },
+  {
+    path: '/:id',
+    name: prefix + '.person',
+    meta: {
+      auth: false,
+      title: 'Página Inicial',
+      icon: 'home',
+      isBanner: false,
+      roles: []
+    },
+    component: () => import('@/views/people/PeopleInfoPage.vue')
+  },
 ]
 const myAccountRoutes = (prefix) => [
   {
@@ -109,9 +120,8 @@ export const constantRoutes = [
   {
     path: '/admin',
     name: 'admin',
-    // hidden: true,
     component: DefaultLayout,
-    children: publicRoutes('cemiterio')
+    children: adminRoutes('cemiterio')
   },
   {
     path: '/simple-auth',

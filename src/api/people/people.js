@@ -8,6 +8,13 @@ export function fetchListPeople(query = null) {
   })
 }
 
+export function getPerson(personId) {
+  return request({
+    url: '/people/' + personId,
+    method: 'get'
+  })
+}
+
 export function updatePerson(data, personId) {
   return request({
     url: '/people/' + personId,

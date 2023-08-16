@@ -10,18 +10,18 @@
                 <h4 class="logo-title ms-3 mb-0" data-setting="app_name"><brand-name></brand-name></h4>
               </router-link>
               <h2 class="mb-2 text-center">Fazer Login</h2>
-              <form>
+              <form @submit.prevent="handleLogin">
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="form-group">
                       <label for="email" class="form-label">Usuário</label>
-                      <input type="email" class="form-control" id="email" aria-describedby="email" placeholder=" " />
+                      <input type="text" class="form-control" id="email" aria-describedby="email" placeholder=" " v-model="loginForm.email"/>
                     </div>
                   </div>
                   <div class="col-lg-12">
                     <div class="form-group">
                       <label for="password" class="form-label">Senha</label>
-                      <input type="password" class="form-control" id="password" aria-describedby="password" placeholder=" " />
+                      <input type="password" class="form-control" id="password" aria-describedby="password" placeholder=" " v-model="loginForm.password"/>
                     </div>
                   </div>
                   <div class="col-lg-12 d-flex justify-content-end">
@@ -44,6 +44,46 @@
   </section>
 </template>
 
-<script setup></script>
+<script>
+export default {
+  data() {
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('The password can not be less than 6 digits'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      loginForm: {
+        email: 'admin@admin.com',
+        password: '2DH<bZdn'
+      },
+      loginRules: {
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+      },
+      passwordType: 'password',
+      capsTooltip: false,
+      loading: false,
+      showDialog: false,
+      redirect: undefined,
+      otherQuery: {}
+    }
+  },
+  methods: {
+    handleLogin() {
+      this.$store
+        .dispatch('user/login', this.loginForm)
+        .then(() => {
+          this.$router.push({ name: 'cemiterio.administracao' })
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped></style>
