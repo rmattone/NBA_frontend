@@ -3,7 +3,7 @@
     <div class="container-fluid navbar-inner">
       <slot></slot>
       <div class="d-flex align-items-center">
-        <button id="navbar-toggle" class="navbar-toggler" type="button" v-b-toggle.navbarSupportedContent aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button id="navbar-toggle" class="navbar-toggler" type="button" v-b-toggle.navbarSupportedContent aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="border: 0;">
           <span class="navbar-toggler-icon">
             <span class="navbar-toggler-bar bar1 mt-1"></span>
             <span class="navbar-toggler-bar bar2"></span>

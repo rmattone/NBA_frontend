@@ -1,10 +1,9 @@
 <template>
     <b-row class="d-flex justify-content-center">
         <b-col md="8">
-            <div class="mb-3 form-floating">
-                <b-form-input type="text" class="form-control" id="floatingInput1" placeholder=""
+            <div class="mb-3">
+                <b-form-input type="text" class="form-control" placeholder="Quem você está procurando?"
                     v-model="listPeopleQuery.query" v-on:keyup="listAllPeople" />
-                <label for="floatingInput1">Quem você está procurando?</label>
             </div>
         </b-col>
     </b-row>
@@ -95,6 +94,7 @@ export default {
     },
     methods: {
         listAllPeople() {
+            this.loading = true
             fetchListPeople({
                 page: this.listPeopleQuery.page,
                 perPage: this.listPeopleQuery.perPage,

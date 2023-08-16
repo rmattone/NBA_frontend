@@ -35,13 +35,13 @@
                                 <b-row>
                                     <b-col sm="12" class="my-3">
                                         <h5 class="mb-2">
-                                            Localização:
+                                            Localização
                                         </h5>
                                         <b-skeleton class="mt-2" width="30%" height="24px"></b-skeleton>
                                     </b-col>
                                     <b-col sm="12">
                                         <h5>
-                                            Quem foi ?:
+                                            Quem foi 
                                         </h5>
                                         <b-skeleton class="mt-2" width="85%" height="24px"></b-skeleton>
                                         <b-skeleton class="mt-2" width="38%" height="24px"></b-skeleton>
@@ -73,26 +73,32 @@
                         </router-link>
                         <div class="header-title text-center">
                             <b-avatar :src="person.photo" size="9rem" rounded></b-avatar>
-                            <h2 class="card-title mt-2">
+                            <h3 class="card-title mt-2">
                                 <strong>
                                     {{ person.name }}
                                 </strong>
-                            </h2>
+                            </h3>
                         </div>
                     </div>
                     <div class="card-body px-5">
                         <b-row>
                             <b-col sm="12" class="my-3">
                                 <h5 class="mb-2">
-                                    Localização:
+                                    <strong>
+                                        Localização
+                                    </strong>
                                 </h5>
-                                {{ person.address }}
+                                <p class="text-dark">
+                                    {{ person.address }}
+                                </p>
                             </b-col>
                             <b-col sm="12">
                                 <h5>
-                                    Quem foi {{ person.name }}?:
+                                    <strong>
+                                        Quem foi {{ person.name }}
+                                    </strong>
                                 </h5>
-                                <div v-html="person.description"></div>
+                                <p v-html="person.description" class="text-dark"></p>
                             </b-col>
                         </b-row>
                     </div>
