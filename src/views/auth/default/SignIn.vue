@@ -75,7 +75,8 @@ export default {
       this.$store
         .dispatch('user/login', this.loginForm)
         .then(() => {
-          this.$router.push({ name: 'cemiterio.administracao' })
+          console.log('login success');
+          this.$router.push('/admin')
           this.loading = false
         })
         .catch(() => {

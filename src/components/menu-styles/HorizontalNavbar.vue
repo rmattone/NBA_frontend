@@ -1,16 +1,14 @@
 <template>
-  <default-navbar>
+  <guest-navbar>
     <b-col lg="3">
       <router-link :to="{ name: 'default.dashboard' }" class="d-flex">
         <brand-logo></brand-logo>
         <h4 class="logo-title "><brand-name></brand-name></h4>
       </router-link>
     </b-col>
-    <horizontal-menu></horizontal-menu>
-  </default-navbar>
+  </guest-navbar>
 </template>
 
 <script setup>
-import DefaultNavbar from '@/components/custom/navbar/DefaultNavbar.vue'
-import HorizontalMenu from '@/components/custom/navbar/HorizontalMenu.vue'
+import GuestNavbar from '@/components/custom/navbar/GuestNavbar.vue'
 </script>
