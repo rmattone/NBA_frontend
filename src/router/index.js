@@ -41,6 +41,42 @@ const adminRoutes = (prefix) => [
 // Dashboard routes
 const dashboardRoutes = (prefix) => [
   {
+    path: '/home',
+    name: prefix + '.home',
+    meta: {
+      auth: false,
+      title: 'Página Inicial',
+      icon: 'home',
+      isBanner: false,
+      roles: []
+    },
+    component: () => import('@/views/people/PeoplePage.vue')
+  },
+  {
+    path: '/sobre',
+    name: prefix + '.sobre',
+    meta: {
+      auth: false,
+      title: 'Página Inicial',
+      icon: 'home',
+      isBanner: false,
+      roles: []
+    },
+    component: () => import('@/views/people/PeoplePage.vue')
+  },
+  {
+    path: '/contato',
+    name: prefix + '.contato',
+    meta: {
+      auth: false,
+      title: 'Página Inicial',
+      icon: 'home',
+      isBanner: false,
+      roles: []
+    },
+    component: () => import('@/views/centro/ContatoPage.vue')
+  },
+  {
     path: '',
     name: prefix + '.dashboard',
     meta: {

@@ -6,16 +6,11 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <router-link class="nav-link" :to="{ name: 'default.dashboard' }">
-                            Página Inicial
+                            Cemitério
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" :to="{ name: 'default.dashboard' }">
-                            Sobre Nós
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" :to="{ name: 'default.dashboard' }">
+                        <router-link class="nav-link" :to="{ name: 'default.contato' }">
                             Contato
                         </router-link>
                     </li>
@@ -45,16 +40,11 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <router-link class="nav-link" :to="{ name: 'default.dashboard' }">
-                                Página Inicial
+                                Cemitério
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" :to="{ name: 'default.dashboard' }">
-                                Sobre Nós
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" :to="{ name: 'default.dashboard' }">
+                            <router-link class="nav-link" :to="{ name: 'default.contato' }">
                                 Contato
                             </router-link>
                         </li>
