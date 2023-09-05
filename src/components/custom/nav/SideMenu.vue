@@ -1,10 +1,12 @@
 <template>
   <li :class="navItemClass" v-if="isTag !== 'router-link'">
-    <a ref="elem" :class="navLinkClass" aria-current="page" :href="createRoute(route.to)" :to="route" @click.prevent="onClickNav" :aria-expanded="collapseActive">
+    <a ref="elem" :class="navLinkClass" aria-current="page" :href="createRoute(route.to)" :to="route"
+      @click.prevent="onClickNav" :aria-expanded="collapseActive">
       <i :class="iconClass" v-if="iconClass" v-b-tooltip.hover.right="title" :title="title">
-        <icon-component :type="iconType" :icon-name="icon" :size="iconSize"></icon-component>
+        <font-awesome-icon :icon="icon" />
       </i>
-      <i class="sidenav-mini-icon" v-if="miniTitle !== '' && miniTitle !== null" v-b-tooltip.hover.right="title" :title="title"> {{ miniTitle }} </i>
+      <i class="sidenav-mini-icon" v-if="miniTitle !== '' && miniTitle !== null" v-b-tooltip.hover.right="title"
+        :title="title"> {{ miniTitle }} </i>
       <span :class="titleClass">
         <slot name="title">
           {{ title }}
@@ -12,7 +14,8 @@
       </span>
       <span v-if="staticItem" class="mini-icon">-</span>
       <i class="right-icon" v-if="caretIcon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" class="icon-18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" class="icon-18" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
         </svg>
       </i>
@@ -21,11 +24,13 @@
   </li>
   <router-link :to="{ name: route.to }" v-else v-slot="{ navigate, isExactActive }">
     <li :class="navItemClass + ' ' + (isExactActive ? 'active' : '')">
-      <a ref="elem" :class="navLinkClass + ' ' + ' ' + (isExactActive ? 'active' : '')" aria-current="page" @click="navigate">
+      <a ref="elem" :class="navLinkClass + ' ' + ' ' + (isExactActive ? 'active' : '')" aria-current="page"
+        @click="navigate">
         <i :class="iconClass" v-if="iconClass" v-b-tooltip.hover.right="title" :title="title">
-          <icon-component :type="iconType" :icon-name="icon" :size="iconSize"></icon-component>
+          <font-awesome-icon :icon="icon" />
         </i>
-        <i class="sidenav-mini-icon" v-if="miniTitle !== '' && miniTitle !== null" v-b-tooltip.hover.right="title" :title="title"> {{ miniTitle }} </i>
+        <i class="sidenav-mini-icon" v-if="miniTitle !== '' && miniTitle !== null" v-b-tooltip.hover.right="title"
+          :title="title"> {{ miniTitle }} </i>
         <span :class="titleClass">
           <slot name="title">
             {{ title }}
@@ -33,7 +38,8 @@
         </span>
         <span v-if="staticItem" class="mini-icon">-</span>
         <i class="right-icon" v-if="caretIcon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" class="icon-18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" class="icon-18" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
         </i>

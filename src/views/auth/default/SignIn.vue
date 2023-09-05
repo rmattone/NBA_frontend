@@ -5,8 +5,8 @@
         <b-row class="justify-content-center">
           <b-col md="10">
             <b-card class="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card iq-auth-form">
-              <router-link :to="{ name: 'default.dashboard' }" class="navbar-brand d-flex align-items-center mb-3">
-                <brand-logo></brand-logo>
+              <router-link :to="{ name: 'home' }" class="navbar-brand d-flex align-items-center mb-3">
+                <!-- <brand-logo></brand-logo> -->
                 <h4 class="logo-title ms-3 mb-0" data-setting="app_name"><brand-name></brand-name></h4>
               </router-link>
               <h2 class="mb-2 text-center">Fazer Login</h2>
@@ -29,7 +29,7 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-center">
-                  <button type="submit" class="btn btn-primary">Sign In</button>
+                  <button type="submit" class="btn btn-primary">Entrar</button>
                 </div>
                 <!-- <p class="mt-3 text-center">Don’t have an account? <router-link :to="{ name: 'auth.register' }">Click here to sign up.</router-link></p> -->
               </form>
@@ -38,7 +38,7 @@
         </b-row>
       </b-col>
       <div class="col-md-6 d-md-block d-none bg-primary p-0 vh-100 overflow-hidden">
-        <img src="@/assets/images/auth/centro.jpg" class="img-fluid gradient-main animated-scaleX" alt="images" loading="lazy" />
+        <img src="@/assets/images/nba/login-page.jpg" class="img-fluid gradient-main animated-scaleX" alt="images" loading="lazy" />
       </div>
     </b-row>
   </section>
@@ -56,7 +56,7 @@ export default {
     }
     return {
       loginForm: {
-        email: 'admin@admin.com',
+        email: 'admin@teste.com',
         password: '2DH<bZdn'
       },
       loginRules: {
@@ -76,7 +76,7 @@ export default {
         .dispatch('user/login', this.loginForm)
         .then(() => {
           console.log('login success');
-          this.$router.push('/admin')
+          this.$router.push('/')
           this.loading = false
         })
         .catch(() => {

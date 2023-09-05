@@ -11,6 +11,7 @@ export default {
   setup() {
     const store = useStore()
     store.dispatch('setting/setSetting')
+    store.dispatch('nba/loadTeams')
     const sidebarType = computed(() => store.getters['setting/sidebar_type'])
     const resizePlugin = () => {
       const sidebarResponsive = document.querySelector('[data-sidebar="responsive"]')

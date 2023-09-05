@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import cemeteryRoutes from './modules-routes/cemetery'
+import nbaRoutes from './modules-routes/nba'
 
 import store from '@/store'
 import { getToken } from '@/utilities/auth' // get token from cookie
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 // import BoxedLayout from '@/layouts/menu-styles/BoxedLayout.vue'
-import HorizontalLayout from '@/layouts/menu-styles/HorizontalLayout.vue'
+// import HorizontalLayout from '@/layouts/menu-styles/HorizontalLayout.vue'
 import BlankLayout from '@/layouts/guest/BlankLayout.vue'
 
 const simpleAuthchildRoutes = (prefix) => [
@@ -24,81 +24,18 @@ const simpleAuthchildRoutes = (prefix) => [
   }
 ]
 
-const adminRoutes = (prefix) => [
+// Dashboard routes
+const dashboardRoutes = () => [
   {
     path: '',
-    name: prefix + '.home',
+    name: 'home',
     meta: {
       auth: true,
       title: 'Página Inicial',
-      icon: 'home',
-      isBanner: false,
-      roles: ['sudo', 'h', 'rH', 'c']
-    },
-    component: () => import('@/views/people/PeoplePage.vue')
-  },
-]
-// Dashboard routes
-const dashboardRoutes = (prefix) => [
-  {
-    path: '/home',
-    name: prefix + '.home',
-    meta: {
-      auth: false,
-      title: 'Página Inicial',
-      icon: 'home',
       isBanner: false,
       roles: []
     },
-    component: () => import('@/views/people/PeoplePage.vue')
-  },
-  {
-    path: '/sobre',
-    name: prefix + '.sobre',
-    meta: {
-      auth: false,
-      title: 'Página Inicial',
-      icon: 'home',
-      isBanner: false,
-      roles: []
-    },
-    component: () => import('@/views/people/PeoplePage.vue')
-  },
-  {
-    path: '/contato',
-    name: prefix + '.contato',
-    meta: {
-      auth: false,
-      title: 'Página Inicial',
-      icon: 'home',
-      isBanner: false,
-      roles: []
-    },
-    component: () => import('@/views/centro/ContatoPage.vue')
-  },
-  {
-    path: '',
-    name: prefix + '.dashboard',
-    meta: {
-      auth: false,
-      title: 'Página Inicial',
-      icon: 'home',
-      isBanner: false,
-      roles: []
-    },
-    component: () => import('@/views/people/PeoplePage.vue')
-  },
-  {
-    path: '/:id',
-    name: prefix + '.person',
-    meta: {
-      auth: false,
-      title: 'Página Inicial',
-      icon: 'home',
-      isBanner: false,
-      roles: []
-    },
-    component: () => import('@/views/people/PeopleInfoPage.vue')
+    component: () => import('@/views/nba/HomePage.vue')
   },
 ]
 const myAccountRoutes = (prefix) => [
@@ -112,6 +49,7 @@ const myAccountRoutes = (prefix) => [
       isBanner: false,
       roles: ['sudo', 'h', 'rH', 'c']
     },
+    hidden: true,
     component: () => import('@/views/AccountSettings.vue')
   }
 ]
@@ -144,20 +82,14 @@ export const constantRoutes = [
     name: 'account',
     component: DefaultLayout,
     children: myAccountRoutes('account'),
-    hidden: true
+    hidden: false
   },
   {
     path: '/',
     name: 'dashboard',
-    component: HorizontalLayout,
-    hidden: true,
-    children: dashboardRoutes('default')
-  },
-  {
-    path: '/admin',
-    name: 'admin',
     component: DefaultLayout,
-    children: adminRoutes('cemiterio')
+    hidden: false,
+    children: dashboardRoutes('default')
   },
   {
     path: '/simple-auth',
@@ -176,7 +108,7 @@ export const constantRoutes = [
   }
 ]
 
-export const asyncRoutes = [...cemeteryRoutes]
+export const asyncRoutes = [...nbaRoutes]
 
 const router = createRouter({
   linkActiveClass: 'active',
@@ -194,7 +126,6 @@ router.beforeEach(async (to, from, next) => {
       next({ name: 'simple.auth.login' })
     }
     const hasRoles = store.getters.roles && store.getters.roles.length > 0
-    console.log(hasToken && !hasRoles)
     if (hasToken && !hasRoles) {
       const { roles } = await store.dispatch('user/getInfo')
       const accessRoutes = await store.dispatch('permissions/generateRoutes', roles)

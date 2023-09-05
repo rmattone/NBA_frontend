@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+<!--   <b-row>
     <b-col sm="12">
       <div class="card">
         <div class="card-body px-3">
@@ -48,11 +48,12 @@
         </b-col>
       </b-row>
     </form>
-  </b-modal>
+  </b-modal> -->
+  <div></div>
 </template>
 
 <script>
-import { getUser, updateUser, getInfo } from '@/api/user.js'
+/* import { getUser, updateUser, getInfo } from '@/api/user.js'
 import { fetchListPeople } from '@/api/people/people.js'
 import { ref } from 'vue'
 import store from '@/store'
@@ -137,5 +138,5 @@ export default {
     this.listAllPeople()
     this.setUserId()
   }
-}
+} */
 </script>

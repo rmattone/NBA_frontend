@@ -40,7 +40,6 @@ import { useStore } from 'vuex'
 // Custom Utility Functions
 import { useShepherd } from '@/utilities/shepherd'
 import { addClass, getQueryString } from '@/utilities/dom'
-
 // Components
 import HeaderComponent from '@/components/partials/HeaderComponent.vue'
 import SubHeader from '@/components/custom/header/SubHeader.vue'
@@ -59,7 +58,7 @@ const isLoader = ref(true)
 const checkTour = () => {
   const liveCustomizer = getQueryString('live-customizer')
   const tour = window.sessionStorage.getItem('tour')
-  if (liveCustomizer !== 'open' && route.name === 'default.dashboard') {
+  if (liveCustomizer !== 'open' ) {
     if (tour !== 'true') {
       return false
     }
@@ -144,4 +143,8 @@ onMounted(() => {
 })
 </script>
 
-<style></style>
+
+<style lang="scss">
+@import '@/assets/modules/social-app/scss/social-app.scss';
+@import '@/assets/modules/nba/nba.scss';
+</style>

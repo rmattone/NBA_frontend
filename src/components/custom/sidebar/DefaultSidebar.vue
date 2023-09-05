@@ -1,8 +1,8 @@
 <template>
   <aside :class="`sidebar-base ${sidebarColor} ${sidebarMenuStyle} ${sidebarHide.join(' ') ? 'sidebar-none' : 'sidebar'} ${sidebarType.join(' ')}`" id="first-tour" data-toggle="main-sidebar" data-sidebar="responsive">
     <div class="sidebar-header d-flex align-items-center justify-content-start">
-      <router-link :to="{ name: 'default.dashboard' }" class="navbar-brand">
-        <brand-logo></brand-logo>
+      <router-link :to="{ name: 'nba.dashboard' }" class="navbar-brand">
+        <!-- <brand-logo></brand-logo> -->
         <h5 class="logo-title" data-setting="app_name">
           <brand-name></brand-name>
         </h5>

@@ -14,6 +14,10 @@ import Toast, { useToast } from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 import VueMask from '@devindex/vue-mask'
 import CounterUp from 'vue3-autocounter'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBasketball, faCity, faPeopleGroup, faHouse, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+library.add(faBasketball, faCity, faPeopleGroup, faHouse, faMagnifyingGlass)
 
 // Custom Components & Directives
 import globalComponent from './plugins/global-components'
@@ -34,6 +38,7 @@ app.use(BootstrapVue3)
 app.use(Toast)
 app.use(VueMask)
 app.component('counter-up', CounterUp)
+app.component('font-awesome-icon', FontAwesomeIcon)
 
 // Custom Components & Directives
 app.use(globalComponent)
