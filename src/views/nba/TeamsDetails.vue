@@ -124,6 +124,7 @@ export default {
               element.teamStats.filter(teamStat => teamStat.teamId != actualTeam.value.nbaTeamId)[0],
             ]
           })
+          console.log(gamesArray);
           games.value = gamesArray
         });
       })
