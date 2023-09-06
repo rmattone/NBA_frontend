@@ -24,6 +24,7 @@ const actions = {
                     name: element.name,
                     tricode: element.tricode,
                     slug: element.slug,
+                    color: element.color,
                     image: require('@/assets/images/nba/logos/' + element.slug + '.svg')
                 })
             })

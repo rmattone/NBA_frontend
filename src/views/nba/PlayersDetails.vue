@@ -88,20 +88,15 @@
                                             {{ game.gameInfo.date }}
                                         </td>
                                         <td>
-                                            {{ team.tricode }}
-                                            {{ game.teamStats.find((t) => t.tricode ==
-                                                team.tricode).points }}
-                                            {{ game.teamStats.find((t) => t.tricode ==
-                                                team.tricode).host
-                                                == 1 ? 'vs' : '@' }}
-                                            {{ game.teamStats.find((t) => t.tricode !=
-                                                team.tricode).tricode }}
-                                            {{ game.teamStats.find((t) => t.tricode !=
-                                                team.tricode).points }}
+                                            {{ game.teamStats[0].tricode }}
+                                            {{ game.teamStats[0].points }}
+                                            {{ game.teamStats[0].host == 1 ? 'vs' : '@' }}
+                                            {{ game.teamStats[1].points }}
+                                            {{ game.teamStats[1].tricode }}
                                         </td>
                                         <td>
-                                            {{ parseInt(game.teamStats.find((t) => t.tricode == team.tricode).points) >
-                                                parseInt(game.teamStats.find((t) => t.tricode != team.tricode).points) ? 'W' :
+                                            {{ parseInt(game.teamStats[0].points) >
+                                                parseInt(game.teamStats[1].points) ? 'W' :
                                                 'L' }}
                                         </td>
                                         <td>
@@ -200,7 +195,6 @@ export default {
 
         const loadPlayer = () => {
             getPlayer(playerId).then((response) => {
-                games.value = response.lastGames
                 player.value.playerId = response.playerId
                 player.value.nbaPlayerId = response.nbaPlayerId
                 player.value.firstName = response.firstName
@@ -213,6 +207,7 @@ export default {
                     slug: response.team.slug,
                     nbaTeamId: response.team.nbaTeamId,
                 }
+                games.value = response.lastGames
             })
         }
         const loadGames = () => {
