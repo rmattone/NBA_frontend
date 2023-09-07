@@ -52,9 +52,9 @@
                         <h4>
                             Statistics
                         </h4>
-                        <div class="table-responsive text-center p-0">
+                        <div class="table-responsive text-center p-0 scrollable-container">
                             <table id="user-list-table" class="table table-striped table-sm" role="grid"
-                                style="font-size: 15px;">
+                                style="font-size: 14px;">
                                 <thead>
                                     <tr class="ligth">
                                         <th>GAME DATE</th>
@@ -252,4 +252,9 @@ export default {
 
 </script>  
 
-<style setup></style>
+<style setup>
+.scrollable-container {
+  max-height: 550px;
+  overflow-y: auto;
+}
+</style>

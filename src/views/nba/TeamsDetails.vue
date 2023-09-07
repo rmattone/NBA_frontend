@@ -20,29 +20,8 @@
         </b-card-header>
         <b-card-body>
           <b-row class="p-3 border-bottom">
-            <b-col md="12">
-              <b-row>
-                <h4>Roster</h4>
-                <b-col md="2" v-for="player in roster" :key="player.playerId">
-                  <router-link :to="{ name: 'nba.player', params: { id: player.playerId } }">
-                    <div class="d-flex justify-content-start align-items-center p-2">
-                      <div class="pe-3">
-                        <img
-                          :src="'https://cdn.nba.com/headshots/nba/latest/1040x760/' + player.nbaPlayerId + '.png?imwidth=1040&imheight=760'"
-                          class="rounded-circle  p-1" alt="1" loading="lazy" style="height: 75px;" />
-                      </div>
-                      <h6>
-                        {{ player.firstName }} <strong>{{ player.familyName }}</strong>
-                      </h6>
-                    </div>
-                  </router-link>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-          <b-row class="p-3 border-bottom">
-            <b-col md="12" class="py-3">
-              <div class="py-3">
+            <b-col md="12" class="pb-3">
+              <div>
                 <div class="d-flex justify-content-between">
                   <h4>
                     Filters
@@ -58,17 +37,27 @@
                   </div>
                 </div>
                 <b-row class="mt-3">
-                  <b-col md="3">
+                  <b-col md="2">
                     <label>Last number of games</label>
                     <input class="form-control" type="number" v-model="queryParams.nLastGames" />
                   </b-col>
                   <b-col md="3">
+                    <label>Opponent Team</label>
+                    <select-component :value="queryParams.opponentTeamId" :options="optionsTeams" class="form-control py-0"
+                      :close-on-select="true" @change="updateQueryTeamId"></select-component>
+                  </b-col>
+                  <b-col md="2">
+                    <label>Playing at</label>
+                    <select-component :value="queryParams.host" :options="optionsHost" class="form-control py-0"
+                      :close-on-select="true" @change="updateQueryHost"></select-component>
+                  </b-col>
+                  <b-col md="2">
                     <label>Start Date</label>
                     <flat-picker v-model="queryParams.startDate" className="form-control" :config="{
                       dateFormat: 'd/m/Y'
                     }"></flat-picker>
                   </b-col>
-                  <b-col md="3">
+                  <b-col md="2">
                     <label>End Date</label>
                     <flat-picker v-model="queryParams.endDate" className="form-control" :config="{
                       dateFormat: 'd/m/Y'
@@ -123,6 +112,28 @@
               </b-row>
             </b-col>
           </b-row>
+          <b-row class="p-3 border-bottom">
+            <b-col md="12">
+              <b-row>
+                <h4>Roster</h4>
+                <b-col md="2" v-for="player in roster" :key="player.playerId">
+                  <router-link :to="{ name: 'nba.player', params: { id: player.playerId } }">
+                    <div class="d-flex justify-content-start align-items-center p-2">
+                      <div class="pe-3">
+                        <img
+                          :src="'https://cdn.nba.com/headshots/nba/latest/1040x760/' + player.nbaPlayerId + '.png?imwidth=1040&imheight=760'"
+                          class="rounded-circle  p-1" alt="1" loading="lazy" style="height: 75px;" />
+                      </div>
+                      <h6>
+                        {{ player.firstName }} <strong>{{ player.familyName }}</strong>
+                      </h6>
+                    </div>
+                  </router-link>
+                </b-col>
+              </b-row>
+            </b-col>
+          </b-row>
+
         </b-card-body>
       </b-card>
     </b-col>
@@ -146,11 +157,19 @@ export default {
 
     const teams = store.state.nba.teams
     let actualTeam = ref({})
+    let optionsTeams = ref([])
+    const optionsHost = [
+      {value: 1, name: 'Home'},
+      {value: 0, name: 'Away'},
+    ]
+
 
     const queryParams = reactive({
       startDate: null,
       endDate: null,
-      nLastGames: null
+      nLastGames: 15,
+      opponentTeamId: null,
+      host: null
     })
 
     let roster = ref({})
@@ -223,7 +242,9 @@ export default {
     const resetTeamData = () => {
       queryParams.startDate = null
       queryParams.endDate = null
-      queryParams.nLastGames = null
+      queryParams.opponentTeamId = null
+      queryParams.nLastGames = 15
+      queryParams.host = null
       loadTeamData()
     }
 
@@ -235,7 +256,9 @@ export default {
       const params = {
         startDate: queryParams.startDate != null ? getDateFormat(queryParams.startDate) : null,
         endDate: queryParams.endDate != null ? getDateFormat(queryParams.endDate) : null,
-        nLastGames: queryParams.nLastGames
+        nLastGames: queryParams.nLastGames,
+        opponentTeamId: queryParams.opponentTeamId,
+        host: queryParams.host
       }
       getTeamInfos(actualTeam.value.teamId, params).then((response) => {
         roster.value = response.players
@@ -252,7 +275,6 @@ export default {
             ]
           })
           games.value = gamesArray
-          queryParams.nLastGames = gamesArray.length
         });
         firstAttempts.value = response.firstAttempts
 
@@ -282,9 +304,29 @@ export default {
 
     }
 
+    const loadTeams = () => {
+      const allTeams = []
+      store.state.nba.teams.forEach(element => {
+        allTeams.push({
+          value: element.teamId,
+          name: element.name,
+        })
+      });
+      optionsTeams.value = allTeams
+    }
+
+
+    const updateQueryTeamId = (newValue) => {
+      queryParams.opponentTeamId = newValue
+    }
+    const updateQueryHost = (newValue) => {
+      queryParams.host = newValue
+    }
+
     onMounted(() => {
       filterTeam()
       loadTeamData()
+      loadTeams()
     });
 
     return {
@@ -296,7 +338,11 @@ export default {
       chartKey,
       loadTeamData,
       queryParams,
-      resetTeamData
+      resetTeamData,
+      updateQueryTeamId,
+      optionsTeams,
+      updateQueryHost,
+      optionsHost
     }
   }
 }
