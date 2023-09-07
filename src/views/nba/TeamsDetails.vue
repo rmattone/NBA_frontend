@@ -19,47 +19,11 @@
           </b-row>
         </b-card-header>
         <b-card-body>
-          <b-row class="p-2 border-bottom">
-            <h4>
-              First Attempts
-            </h4>
-            <apexchart :key="chartKey" :series="barchart.series" type="bar" height="350" :options="barchart.options" />
-          </b-row>
-          <!-- <b-row class="p-2 border-bottom">
-            <h4>First Attempts</h4>
-            <b-col md="2" v-for="player in firstAttempts" :key="player.name" class="p-1">
-              <div class="card border shadow">
-                <div class="card-body p-3">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <span><b>{{ player.name }}</b></span>
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-between mt-2">
-                    <div>
-                      <span>{{ player.fgMade }} of {{ player.fgAttempted }}</span>
-                    </div>
-                    <div>
-                      <span>
-                        {{ (100 * (parseFloat(player.fgMade / player.fgAttempted))).toFixed(1) }} %
-                      </span>
-                    </div>
-                  </div>
-                  <div class="mt-3">
-                    <b-progress :max="0" class="bg-soft-danger shadow-none w-100 mb-3" height="8px">
-                      <b-progress-bar :value="parseInt(100 * (player.fgMade / player.fgAttempted))"
-                        variant="success"></b-progress-bar>
-                    </b-progress>
-                  </div>
-                </div>
-              </div>
-            </b-col>
-          </b-row> -->
-          <b-row class="p-3">
-            <b-col md="8">
+          <b-row class="p-3 border-bottom">
+            <b-col md="12">
               <b-row>
                 <h4>Roster</h4>
-                <b-col md="4" v-for="player in roster" :key="player.playerId">
+                <b-col md="2" v-for="player in roster" :key="player.playerId">
                   <router-link :to="{ name: 'nba.player', params: { id: player.playerId } }">
                     <div class="d-flex justify-content-start align-items-center p-2">
                       <div class="pe-3">
@@ -75,10 +39,54 @@
                 </b-col>
               </b-row>
             </b-col>
+          </b-row>
+          <b-row class="p-3 border-bottom">
+            <b-col md="12" class="py-3">
+              <div class="py-3">
+                <div class="d-flex justify-content-between">
+                  <h4>
+                    Filters
+                  </h4>
+                  <div>
+                    <button class="btn btn-soft-primary align-self-center mx-2" @click="resetTeamData">
+                      Reset
+                    </button>
+                    <button class="btn btn-primary align-self-center" @click="loadTeamData">
+                      <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                      Search
+                    </button>
+                  </div>
+                </div>
+                <b-row class="mt-3">
+                  <b-col md="3">
+                    <label>Last number of games</label>
+                    <input class="form-control" type="number" v-model="queryParams.nLastGames" />
+                  </b-col>
+                  <b-col md="3">
+                    <label>Start Date</label>
+                    <flat-picker v-model="queryParams.startDate" className="form-control" :config="{
+                      dateFormat: 'd/m/Y'
+                    }"></flat-picker>
+                  </b-col>
+                  <b-col md="3">
+                    <label>End Date</label>
+                    <flat-picker v-model="queryParams.endDate" className="form-control" :config="{
+                      dateFormat: 'd/m/Y'
+                    }"></flat-picker>
+                  </b-col>
+                </b-row>
+              </div>
+            </b-col>
+            <b-col md="8">
+              <h4>
+                First Attempts
+              </h4>
+              <apexchart :key="chartKey" :series="barchart.series" type="bar" height="550" :options="barchart.options" />
+            </b-col>
             <b-col md="4">
               <b-row>
-                <h4>Last games</h4>
-                <div>
+                <h4>Last {{ games.length }} games</h4>
+                <div class="scrollable-container">
                   <b-card no-body class="card bg-soft-secondary mb-3" v-for="game in games" :key="game.info.gameId">
                     <b-card-body class="p-1 pb-3">
                       <div class="text-center">
@@ -128,8 +136,10 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router';
 import { onMounted, ref, reactive } from 'vue'
 import { getTeamInfos } from "@/api/BET/NBATeams.js";
+import FlatPicker from 'vue-flatpickr-component'
 
 export default {
+  components: { FlatPicker },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -137,16 +147,23 @@ export default {
     const teams = store.state.nba.teams
     let actualTeam = ref({})
 
+    const queryParams = reactive({
+      startDate: null,
+      endDate: null,
+      nLastGames: null
+    })
+
     let roster = ref({})
     let games = ref({})
     let firstAttempts = ref({})
+
     const chartKey = ref(0);
     const barchart = reactive({
       series: [],
       options: {
         chart: {
           type: 'bar',
-          height: 450,
+          height: 550,
           stacked: true,
           toolbar: {
             show: false
@@ -203,8 +220,24 @@ export default {
       actualTeam.value = teams.filter(team => team.teamId == route.params.id)[0]
     }
 
+    const resetTeamData = () => {
+      queryParams.startDate = null
+      queryParams.endDate = null
+      queryParams.nLastGames = null
+      loadTeamData()
+    }
+
+    const getDateFormat = (date) => {
+      return date.split('/')[2] + '-' + date.split('/')[1] + '-' + date.split('/')[0]
+    }
+
     const loadTeamData = () => {
-      getTeamInfos(actualTeam.value.teamId).then((response) => {
+      const params = {
+        startDate: queryParams.startDate != null ? getDateFormat(queryParams.startDate) : null,
+        endDate: queryParams.endDate != null ? getDateFormat(queryParams.endDate) : null,
+        nLastGames: queryParams.nLastGames
+      }
+      getTeamInfos(actualTeam.value.teamId, params).then((response) => {
         roster.value = response.players
         let gamesArray = []
         response.games.forEach(element => {
@@ -219,6 +252,7 @@ export default {
             ]
           })
           games.value = gamesArray
+          queryParams.nLastGames = gamesArray.length
         });
         firstAttempts.value = response.firstAttempts
 
@@ -259,7 +293,10 @@ export default {
       games,
       firstAttempts,
       barchart,
-      chartKey
+      chartKey,
+      loadTeamData,
+      queryParams,
+      resetTeamData
     }
   }
 }
@@ -269,5 +306,11 @@ export default {
 <style setup>
 .score {
   font-size: 24px;
+}
+
+.scrollable-container {
+  max-height: 550px;
+  overflow-y: auto;
+  /* Add a vertical scrollbar when content overflows */
 }
 </style>
