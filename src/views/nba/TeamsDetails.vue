@@ -43,8 +43,8 @@
                   </b-col>
                   <b-col md="3">
                     <label>Opponent Team</label>
-                    <select-component :value="queryParams.opponentTeamId" :options="optionsTeams" class="form-control py-0"
-                      :close-on-select="true" @change="updateQueryTeamId"></select-component>
+                    <select-component :value="queryParams.opponentTeamId" :options="optionsTeams"
+                      class="form-control py-0" :close-on-select="true" @change="updateQueryTeamId"></select-component>
                   </b-col>
                   <b-col md="2">
                     <label>Playing at</label>
@@ -66,16 +66,19 @@
                 </b-row>
               </div>
             </b-col>
-            <b-col md="8">
-              <h4>
-                First Attempts
-              </h4>
-              <apexchart :key="chartKey" :series="barchart.series" type="bar" height="550" :options="barchart.options" />
-            </b-col>
-            <b-col md="4">
+            <b-col md="12" class="py-3">
               <b-row>
-                <h4>Last {{ games.length }} games</h4>
-                <div class="scrollable-container">
+                <h4>Statistics</h4>
+                <b-col v-if="pointsChart.options.xaxis.categories.length > 4">
+                  <apexchart :key="chartKey" :series="pointsChart.series" type="line" height="550"
+                  :options="pointsChart.options" />
+                </b-col>
+                <b-col>
+                  <apexchart :key="chartKey" :series="firstAttemptChart.series" type="bar" height="550"
+                  :options="firstAttemptChart.options" />
+                </b-col>
+                <b-col md="4">
+                  <div class="scrollable-container">
                   <b-card no-body class="card bg-soft-secondary mb-3" v-for="game in games" :key="game.info.gameId">
                     <b-card-body class="p-1 pb-3">
                       <div class="text-center">
@@ -109,6 +112,30 @@
                     </b-card-body>
                   </b-card>
                 </div>
+                </b-col>
+                <!-- <b-col md="2" v-for="(value, name, index) in statistics" :key="index">
+                  <b-card class="border-bottom border-4 border-0 shadow shadow-3" :style="{ 'border-color': 'var(--' + actualTeam.tricode + ') !important' }">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="text-center">
+                        <span class="fw-bold">{{ name }}</span>
+                      </div>
+                      <div class="text-end">
+                        <div>
+                          <span class="fw-bold display-6 me-2">{{ value.min }}</span>
+                          <small class="me-2">Min</small>
+                        </div>
+                        <div>
+                          <span class="fw-bold display-6 me-2">{{ value.max }}</span>
+                          <small class="me-2">Max</small>
+                        </div>
+                        <div>
+                          <span class="fw-bold display-6 me-2">{{ value.avg }}</span>
+                          <small class="me-2">Avg</small>
+                        </div>
+                      </div>
+                    </div>
+                  </b-card>
+                </b-col> -->
               </b-row>
             </b-col>
           </b-row>
@@ -159,9 +186,10 @@ export default {
     let actualTeam = ref({})
     let optionsTeams = ref([])
     const optionsHost = [
-      {value: 1, name: 'Home'},
-      {value: 0, name: 'Away'},
+      { value: 1, name: 'Home' },
+      { value: 0, name: 'Away' },
     ]
+    let statistics = ref()
 
 
     const queryParams = reactive({
@@ -172,12 +200,14 @@ export default {
       host: null
     })
 
+
+
     let roster = ref({})
     let games = ref({})
     let firstAttempts = ref({})
 
     const chartKey = ref(0);
-    const barchart = reactive({
+    const firstAttemptChart = reactive({
       series: [],
       options: {
         chart: {
@@ -234,6 +264,51 @@ export default {
         colors: ['#126e51', '#98002e']
       }
     })
+    const pointsChart = reactive({
+      series: [],
+      options: {
+        chart: {
+          type: 'line',
+          height: 350,
+          toolbar: {
+            autoSelected: 'zoom',
+          },
+          zoom: {
+            type: 'x',
+            enabled: true,
+            autoScaleYaxis: true
+          },
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
+          position: 'top',
+          offsetY: 25,
+          style: {
+            colors: ['#126e51', '#98002e']
+          }
+        },
+        xaxis: {
+          type: 'category',
+          categories: [],
+          labels: {
+            enabled: true,
+
+          }
+        },
+        colors: ['#126e51', '#98002e']
+      }
+    })
 
     const filterTeam = () => {
       actualTeam.value = teams.filter(team => team.teamId == route.params.id)[0]
@@ -261,6 +336,20 @@ export default {
         host: queryParams.host
       }
       getTeamInfos(actualTeam.value.teamId, params).then((response) => {
+        statistics.value = response.statistics
+        pointsChart.series = [
+          {
+            name: 'Point',
+            data: response.statistics.Points.data
+          },
+          {
+            name: 'Avg',
+            data: new Array(response.statistics.Points.data.length).fill(response.statistics.Points.avg)
+          },
+        ]
+        pointsChart.options.xaxis.categories = response.statistics.dates
+
+
         roster.value = response.players
         let gamesArray = []
         response.games.forEach(element => {
@@ -286,7 +375,7 @@ export default {
           fgMade.push(element.fgMade)
           categories.push(element.name)
         })
-        barchart.series = [
+        firstAttemptChart.series = [
           {
             name: 'Made',
             data: fgMade
@@ -296,9 +385,9 @@ export default {
             data: fgMissed
           },
         ]
-        // barchart.options.colors = ['#'+actualTeam.value.color, '#c03221']
-        barchart.options.colors = ['#126e51', '#c03221']
-        barchart.options.xaxis.categories = categories
+        // firstAttemptChart.options.colors = ['#'+actualTeam.value.color, '#c03221']
+        firstAttemptChart.options.colors = ['#126e51', '#c03221']
+        firstAttemptChart.options.xaxis.categories = categories
         chartKey.value += 1;
       })
 
@@ -334,7 +423,7 @@ export default {
       roster,
       games,
       firstAttempts,
-      barchart,
+      firstAttemptChart,
       chartKey,
       loadTeamData,
       queryParams,
@@ -342,7 +431,9 @@ export default {
       updateQueryTeamId,
       optionsTeams,
       updateQueryHost,
-      optionsHost
+      optionsHost,
+      statistics,
+      pointsChart
     }
   }
 }
