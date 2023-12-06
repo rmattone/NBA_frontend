@@ -37,27 +37,33 @@
                   </div>
                 </div>
                 <b-row class="mt-3">
-                  <b-col md="2">
+                  <b-col md="4">
                     <label>Last number of games</label>
                     <input class="form-control" type="number" v-model="queryParams.nLastGames" />
                   </b-col>
-                  <b-col md="3">
+                  <b-col md="4">
                     <label>Opponent Team</label>
                     <select-component :value="queryParams.opponentTeamId" :options="optionsTeams"
                       class="form-control py-0" :close-on-select="true" @change="updateQueryTeamId"></select-component>
                   </b-col>
-                  <b-col md="2">
+                  <b-col md="4">
                     <label>Playing at</label>
                     <select-component :value="queryParams.host" :options="optionsHost" class="form-control py-0"
                       :close-on-select="true" @change="updateQueryHost"></select-component>
                   </b-col>
-                  <b-col md="2">
+                  <b-col md="4">
+                    <label>Season Type</label>
+                    <select-component :value="queryParams.seasonType" :options="optionsSeasonType"
+                      class="form-control py-0" :close-on-select="true"
+                      @change="updateQuerySeasonType"></select-component>
+                  </b-col>
+                  <b-col md="4">
                     <label>Start Date</label>
                     <flat-picker v-model="queryParams.startDate" className="form-control" :config="{
                       dateFormat: 'd/m/Y'
                     }"></flat-picker>
                   </b-col>
-                  <b-col md="2">
+                  <b-col md="4">
                     <label>End Date</label>
                     <flat-picker v-model="queryParams.endDate" className="form-control" :config="{
                       dateFormat: 'd/m/Y'
@@ -69,51 +75,11 @@
             <b-col md="12" class="py-3">
               <b-row>
                 <h4>Statistics</h4>
-                <b-col v-if="pointsChart.options.xaxis.categories.length > 4">
+                <!-- <b-col v-if="pointsChart.options.xaxis.categories.length > 4">
                   <apexchart :key="chartKey" :series="pointsChart.series" type="line" height="550"
                   :options="pointsChart.options" />
-                </b-col>
-                <b-col>
-                  <apexchart :key="chartKey" :series="firstAttemptChart.series" type="bar" height="550"
-                  :options="firstAttemptChart.options" />
-                </b-col>
-                <b-col md="4">
-                  <div class="scrollable-container">
-                  <b-card no-body class="card bg-soft-secondary mb-3" v-for="game in games" :key="game.info.gameId">
-                    <b-card-body class="p-1 pb-3">
-                      <div class="text-center">
-                        <small>
-                          {{ game.info.date }}
-                        </small>
-                      </div>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div>
-                          {{ game.teamStats[0].tricode }}
-                          <img :src="'https://cdn.nba.com/logos/nba/' + game.teamStats[0].teamId + '/global/D/logo.svg'"
-                            class="img-fluid" alt="group-bg" loading="lazy" style="width: 70px;" />
-                        </div>
-                        <div class="d-flex align-items-center">
-                          <span class="score">
-                            {{ game.teamStats[0].points }}
-                          </span>
-                          <span class="mx-2">
-                            {{ game.teamStats[0].host == 1 ? 'vs' : '@' }}
-                          </span>
-                          <span class="score">
-                            {{ game.teamStats[1].points }}
-                          </span>
-                        </div>
-                        <div>
-                          <img :src="'https://cdn.nba.com/logos/nba/' + game.teamStats[1].teamId + '/global/D/logo.svg'"
-                            class="img-fluid" alt="group-bg" loading="lazy" style="width: 70px;" />
-                          {{ game.teamStats[1].tricode }}
-                        </div>
-                      </div>
-                    </b-card-body>
-                  </b-card>
-                </div>
-                </b-col>
-                <!-- <b-col md="2" v-for="(value, name, index) in statistics" :key="index">
+                </b-col> -->
+                <b-col md="2" v-for="(value, name, index) in statistics" :key="index">
                   <b-card class="border-bottom border-4 border-0 shadow shadow-3" :style="{ 'border-color': 'var(--' + actualTeam.tricode + ') !important' }">
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="text-center">
@@ -135,7 +101,47 @@
                       </div>
                     </div>
                   </b-card>
-                </b-col> -->
+                </b-col>
+                <b-col md="8">
+                  <apexchart :key="chartKey" :series="firstAttemptChart.series" type="bar" height="550"
+                    :options="firstAttemptChart.options" />
+                </b-col>
+                <b-col md="4">
+                  <div class="scrollable-container">
+                    <b-card no-body class="card bg-soft-secondary mb-3" v-for="game in games" :key="game.info.gameId">
+                      <b-card-body class="p-1 pb-3">
+                        <div class="text-center">
+                          <small>
+                            {{ game.info.date }} - {{ game.info.seasonType }}
+                          </small>
+                        </div>
+                        <div class="d-flex justify-content-around align-items-center">
+                          <div>
+                            {{ game.teamStats[0].tricode }}
+                            <img :src="'https://cdn.nba.com/logos/nba/' + game.teamStats[0].teamId + '/global/D/logo.svg'"
+                              class="img-fluid" alt="group-bg" loading="lazy" style="width: 70px;" />
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="score">
+                              {{ game.teamStats[0].points }}
+                            </span>
+                            <span class="mx-2">
+                              {{ game.teamStats[0].host == 1 ? 'vs' : '@' }}
+                            </span>
+                            <span class="score">
+                              {{ game.teamStats[1].points }}
+                            </span>
+                          </div>
+                          <div>
+                            <img :src="'https://cdn.nba.com/logos/nba/' + game.teamStats[1].teamId + '/primary/D/logo.svg'"
+                              class="img-fluid" alt="group-bg" loading="lazy" style="width: 70px;" />
+                            {{ game.teamStats[1].tricode }}
+                          </div>
+                        </div>
+                      </b-card-body>
+                    </b-card>
+                  </div>
+                </b-col>
               </b-row>
             </b-col>
           </b-row>
@@ -189,6 +195,12 @@ export default {
       { value: 1, name: 'Home' },
       { value: 0, name: 'Away' },
     ]
+    const optionsSeasonType = [
+      { value: '', name: 'All games' },
+      { value: 'Pre Season', name: 'Pre Season' },
+      { value: 'Regular Season', name: 'Regular Season' },
+      { value: 'Playoffs', name: 'Playoffs' },
+    ]
     let statistics = ref()
 
 
@@ -197,7 +209,8 @@ export default {
       endDate: null,
       nLastGames: 15,
       opponentTeamId: null,
-      host: null
+      host: null,
+      seasonType: 'Regular Season'
     })
 
 
@@ -264,7 +277,7 @@ export default {
         colors: ['#126e51', '#98002e']
       }
     })
-    const pointsChart = reactive({
+    /* const pointsChart = reactive({
       series: [],
       options: {
         chart: {
@@ -308,7 +321,7 @@ export default {
         },
         colors: ['#126e51', '#98002e']
       }
-    })
+    }) */
 
     const filterTeam = () => {
       actualTeam.value = teams.filter(team => team.teamId == route.params.id)[0]
@@ -320,6 +333,7 @@ export default {
       queryParams.opponentTeamId = null
       queryParams.nLastGames = 15
       queryParams.host = null
+      queryParams.seasonType = null
       loadTeamData()
     }
 
@@ -333,11 +347,13 @@ export default {
         endDate: queryParams.endDate != null ? getDateFormat(queryParams.endDate) : null,
         nLastGames: queryParams.nLastGames,
         opponentTeamId: queryParams.opponentTeamId,
-        host: queryParams.host
+        host: queryParams.host,
+        seasonType: queryParams.seasonType,
       }
       getTeamInfos(actualTeam.value.teamId, params).then((response) => {
+        console.log(response.statistics);
         statistics.value = response.statistics
-        pointsChart.series = [
+        /* pointsChart.series = [
           {
             name: 'Point',
             data: response.statistics.Points.data
@@ -347,14 +363,15 @@ export default {
             data: new Array(response.statistics.Points.data.length).fill(response.statistics.Points.avg)
           },
         ]
-        pointsChart.options.xaxis.categories = response.statistics.dates
+        pointsChart.options.xaxis.categories = response.statistics.dates */
 
 
         roster.value = response.players
         let gamesArray = []
         response.games.forEach(element => {
-          element.teamStats[0].tricode = teams.filter(team => team.nbaTeamId == element.teamStats[0].teamId)[0].tricode
-          element.teamStats[1].tricode = teams.filter(team => team.nbaTeamId == element.teamStats[1].teamId)[0].tricode
+          console.log();
+          element.teamStats[0].tricode = teams.find(team => team.nbaTeamId == element.teamStats[0].teamId)?.tricode ?? ''
+          element.teamStats[1].tricode = teams.find(team => team.nbaTeamId == element.teamStats[1].teamId)?.tricode ?? ''
 
           gamesArray.push({
             info: element.info,
@@ -411,6 +428,9 @@ export default {
     const updateQueryHost = (newValue) => {
       queryParams.host = newValue
     }
+    const updateQuerySeasonType = (newValue) => {
+      queryParams.seasonType = newValue
+    }
 
     onMounted(() => {
       filterTeam()
@@ -431,9 +451,11 @@ export default {
       updateQueryTeamId,
       optionsTeams,
       updateQueryHost,
+      updateQuerySeasonType,
       optionsHost,
       statistics,
-      pointsChart
+      optionsSeasonType,
+      // pointsChart
     }
   }
 }

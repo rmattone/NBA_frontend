@@ -51,14 +51,13 @@ service.interceptors.response.use(
   },
   (error) => {
     const toast = useToast()
-    toast.error('Erro ' + error.response.status + ': ' + (error.response.data.message ?? error.response.data.data.message))
-    console.log(error.response)
     if (error.response.status == 401 && error.response.data.message == 'Unauthenticated.') {
       setTimeout(() => {
         // Redirect to the desired URL
         window.location.href = '/simple-auth/login'
       }, 1000)
     }
+    toast.error('Erro ' + error.response.status ? error.response.status : '' + ': ' + (error.response.data.message ?? error.response.data.data.message))
     return Promise.reject(error)
   }
 )
